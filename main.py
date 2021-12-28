@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_restful import Api, Resource, reqparse, abort
+from flask_restful import Api, Resource, abort
 import json
 import datetime
 # my files
@@ -7,6 +7,20 @@ from birthday_data import *
 
 app = Flask(__name__)
 api = Api(app)
+
+
+class Home(Resource):
+    def get(self):
+        home_message = "This is the homepage of the birthday stats API, developed by Chase Traver.\n" \
+                    "To use me, put your birthday in YYYYMMDD format in the url after a slash, e.g. " \
+                    "https://birthday-facts-api.herokuapp.com/19970715\n" \
+                    "You can also narrow your results from getting everything related to your birthday to one resource" \
+                    "by putting the resource you want in a slash after your birthday, e.g. " \
+                    "https://birthday-facts-api.herokuapp.com/19970715/chinesezodiac \n " \
+                    "You can also request multiple resources simultaneously by using & to chain them, e.g. " \
+                    "https://birthday-facts-api.herokuapp.com/19970715/chinesezodiac&birthflowers\n"\
+                    "Source code can be found at this location: https://github.com/chasetraver/birthday-api"
+        return home_message, 200
 
 
 class BirthdayStats(Resource):
@@ -92,8 +106,9 @@ def format_birthday(birthday)->datetime.date:
 
 
 # birthday format is YYYY-MM-DD
-api.add_resource(BirthdayStats, "/birthdaystats/<string:birthday>")
-api.add_resource(TargetBirthdayStat, "/birthdaystats/<string:birthday>/<string:target>")
+api.add_resource(Home, "/")
+api.add_resource(BirthdayStats, "/<string:birthday>")
+api.add_resource(TargetBirthdayStat, "/<string:birthday>/<string:target>")
 
 if __name__ == '__main__':
     app.run()
