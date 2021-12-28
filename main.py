@@ -9,9 +9,9 @@ app = Flask(__name__)
 api = Api(app)
 
 
-class Home(Resource):
-    def get(self):
-        return render_template('home.html')
+@app.route('/', methods=['GET'])
+def home():
+    return render_template('home.html')
 
 
 class BirthdayStats(Resource):
@@ -97,7 +97,6 @@ def format_birthday(birthday)->datetime.date:
 
 
 # birthday format is YYYY-MM-DD
-api.add_resource(Home, "/")
 api.add_resource(BirthdayStats, "/<string:birthday>")
 api.add_resource(TargetBirthdayStat, "/<string:birthday>/<string:target>")
 
