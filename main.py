@@ -25,11 +25,11 @@ class BirthdayStats(Resource):
         flowers = get_birth_flowers(birthday)
         horoscope = get_western_horoscope(birthday)
         birthdayjson = {
-            "birthday": str(birthday.strftime("%b %d %Y")),
-            "birth stones": stones,
-            "chinese zodiac": zodiac,
-            "birth flowers": flowers,
-            "western horoscope": horoscope
+            'birthday': str(birthday.strftime("%b %d %Y")),
+            'birth stones': stones,
+            'chinese zodiac': zodiac,
+            'birth flowers': flowers,
+            'western horoscope': horoscope
         }
         birthdayjson = json.dumps(birthdayjson)
         return birthdayjson, 200
@@ -42,7 +42,7 @@ class TargetBirthdayStat(Resource):
         # allow for multiple stats to be targeted via the use of & to chain them
         targets = target.split('&')
         birthday = format_birthday(birthday)
-        birthdaydict = {"birthday": str(birthday.strftime("%b %d %Y"))}
+        birthdaydict = {'birthday': str(birthday.strftime("%b %d %Y"))}
         for target in targets:
             # remove separator character for each separate statement.
             target.lstrip('&')
@@ -51,7 +51,7 @@ class TargetBirthdayStat(Resource):
             elif target in {"zodiac", "chinesezodiac", "chinese-zodiac"}:
                 birthdaydict['chinese zodiac'] = get_chinese_zodiac(birthday)
             elif target in {"flowers", "birthdayflowers", "birthday-flowers"}:
-                birthdaydict["birth flowers"] = get_birth_flowers(birthday)
+                birthdaydict['birth flowers'] = get_birth_flowers(birthday)
             elif target in {"horoscope", "sign", "westernhoroscope", "western-horoscope"}:
                 birthdaydict['horoscope'] = get_western_horoscope(birthday)
             else:
